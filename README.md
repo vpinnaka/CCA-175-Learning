@@ -1,6 +1,9 @@
 # CCA-175-Learning
-----------------------------
-
+----------------------------------------------------------------------------------------------------------------------------------
+## Table of Contents
+- [Flume](https://github.com/vpinnaka/CCA-175-Learning#flume)
+- [Kafka](https://github.com/vpinnaka/CCA-175-Learning#kafca)
+----------------------------------------------------------------------------------------------------------------------------------
 ## FLUME
 
 Flume config file to get the streaming data to store in HDFS format, other parameters such as file suffix, format, size and type are also set in the configuration
@@ -46,3 +49,20 @@ Command to execute flume, to get near-real time streaming data and store in HDFS
 flume-ng agent -n wh -f /home/vinaydatta/FlumeExample/webLogs/wshdfs.conf 
 ```
 [Documentation Link](https://archive.cloudera.com/cdh5/cdh/5/flume-ng/FlumeUserGuide.html#hdfs-sink)
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+## Kafka
+
+
+
+
+
+
+
+
+
+
+
+
+
