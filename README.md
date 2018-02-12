@@ -1,8 +1,16 @@
 # CCA-175-Learning
 ----------------------------------------------------------------------------------------------------------------------------------
+### labs.itversity details
+gw01.itversity.com
+vinaydatta
+
+
+pyspark --master yarn --conf spark.ui.port=12808
+
+
 ## Table of Contents
 - [Flume](https://github.com/vpinnaka/CCA-175-Learning#flume)
-- [Kafka](https://github.com/vpinnaka/CCA-175-Learning#kafca)
+- [Kafka](https://github.com/vpinnaka/CCA-175-Learning#kafka)
 ----------------------------------------------------------------------------------------------------------------------------------
 ## FLUME
 
@@ -53,8 +61,24 @@ flume-ng agent -n wh -f /home/vinaydatta/FlumeExample/webLogs/wshdfs.conf
 ----------------------------------------------------------------------------------------------------------------------------------
 
 ## Kafka
-
-
+----------------------------------------------------------------------------------------------------------------------------------
+Create a topic named 'kafka_demo' in kafka
+```
+bin/kafka-topics.sh --create --zookeeper nn01.itversity.com:2181, nn02.itversity.com:2181, rm01.itversity.com:2181 --replication-factor 1 --partitions 1 --topic kafka_demo
+```
+See thr topic with
+```
+bin/kafka-topics.sh --list --zookeeper nn01.itversity.com:2181, nn02.itversity.com:2181, rm01.itversity.com:2181 --topic kafka_demo
+```
+Send some messages
+```
+bin/kafka-console-producer.sh --broker-list nn01.itversity.com:6667, nn02.itversity.com:6667, rm01.itversity.com:6667 --topic kafka_demo
+```
+Create a consumer
+```
+bin/kafka-console-consumer.sh  --zookeeper nn01.itversity.com:2181, nn02.itversity.com:2181, rm01.itversity.com:2181 --topic kafka_demo --from-beginning
+```
+[Documentation Link](https://kafka.apache.org/quickstart)
 
 
 
