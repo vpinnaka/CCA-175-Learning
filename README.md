@@ -11,6 +11,7 @@ pyspark --master yarn --conf spark.ui.port=12808
 ## Table of Contents
 - [Flume](https://github.com/vpinnaka/CCA-175-Learning#flume)
 - [Kafka](https://github.com/vpinnaka/CCA-175-Learning#kafka)
+- [Spark Streaming](https://github.com/vpinnaka/CCA-175-Learning#Spark Streaming)
 ----------------------------------------------------------------------------------------------------------------------------------
 ## FLUME
 
@@ -80,6 +81,33 @@ bin/kafka-console-consumer.sh  --zookeeper nn01.itversity.com:2181, nn02.itversi
 ```
 [Documentation Link](https://kafka.apache.org/quickstart)
 
+## Spark Streaming
+----------------------------------------------------------------------------------------------------------------------------------
+Word count program using spark streaming
+```
+from pyspark import SparkContext, SparkConf
+from pyspark.streaming import StreamingContext
+
+conf = SparkConf().setAppName("Spark Streaming Word Count").setMaster("yarn-client")
+sc = SparkContext(conf=conf)
+ssc = StreamingContext(sc, 15)
+
+lines = ssc.socketTextStream("gw01.itversity.com", 19999)
+words = lines.flatMap(lambda lines: line.split(" "))
+wordPairs = words.map(lambda word: (word, 1))
+wordCounts = wordPairs.reduceByKey(lambda x, y : x + y)
+
+wordCounts.pprint()
+
+ssc.start()
+ssc.awaitTermination()
+
+```
+spark submit command
+```
+spark-submit --master yarn --conf spark.ui.port=12890 src/main/python/StreamingWordCountVinay.py
+```
+[Documentation](http://spark.apache.org/docs/1.6.0/streaming-programming-guide.html#a-quick-example)
 
 
 
