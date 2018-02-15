@@ -13,7 +13,7 @@ pyspark --master yarn --conf spark.ui.port=12808
   - [Flume](https://github.com/vpinnaka/CCA-175-Learning#flume)
   - [Kafka](https://github.com/vpinnaka/CCA-175-Learning#kafka)
   - [Spark Streaming](https://github.com/vpinnaka/CCA-175-Learning#spark-streaming)
-  - [Flume with Spark Streaming]
+  - [Flume with Spark Streaming](https://github.com/vpinnaka/CCA-175-Learning/blob/master/README.md#flume-with-spark-streaming)
 
 ## FLUME
 
@@ -134,7 +134,7 @@ ssc.start()             # Start the computation
 ssc.awaitTermination()  # Wait for the computation to terminate
 ```
 [Documentation](http://spark.apache.org/docs/1.6.0/streaming-programming-guide.html#a-quick-example)
-----------------------------------------------------------------------------------------------------------------------------------------
+
 ## Flume with Spark Streaming
 Integrating flume with spark streaming, we use multiplexing with one channel for storing golden data and the other channel will pass the data 
 ```
