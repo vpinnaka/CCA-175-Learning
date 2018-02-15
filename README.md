@@ -9,9 +9,11 @@ pyspark --master yarn --conf spark.ui.port=12808
 
 
 ## Table of Contents
-- [Flume](https://github.com/vpinnaka/CCA-175-Learning#flume)
-- [Kafka](https://github.com/vpinnaka/CCA-175-Learning#kafka)
-- [Spark Streaming](https://github.com/vpinnaka/CCA-175-Learning#spark-streaming)
+- ### Data Ingest
+  - [Flume](https://github.com/vpinnaka/CCA-175-Learning#flume)
+  - [Kafka](https://github.com/vpinnaka/CCA-175-Learning#kafka)
+  - [Spark Streaming](https://github.com/vpinnaka/CCA-175-Learning#spark-streaming)
+  - [Flume with Spark Streaming]
 
 ## FLUME
 
@@ -132,8 +134,48 @@ ssc.start()             # Start the computation
 ssc.awaitTermination()  # Wait for the computation to terminate
 ```
 [Documentation](http://spark.apache.org/docs/1.6.0/streaming-programming-guide.html#a-quick-example)
+----------------------------------------------------------------------------------------------------------------------------------------
+## Flume with Spark Streaming
+Integrating flume with spark streaming, we use multiplexing with one channel for storing golden data and the other channel will pass the data 
+```
+# Name the components on this agent
+sdc.sources = ws
+sdc.sinks = hd spark
+sdc.channels = hdmem sparkmem
 
+# Describe/configure the source
+sdc.sources.ws.type = exec
+sdc.sources.ws.command = tail -F /opt/gen_logs/logs/access.log
 
+# Describe the sink
+sdc.sinks.hd.type = hdfs
+sdc.sinks.hd.hdfs.path = hdfs://nn01.itversity.com:8020/user/vinaydatta/flume_example
+
+sdc.sinks.spark.type = org.apache.spark.streaming.flume.sink.SparkSink
+sdc.sinks.spark.hostname = gw02.itversity.com
+sdc.sinks.spark.port = 8123
+
+sdc.sinks.hd.hdfs.filePrefix = flume_example
+sdc.sinks.hd.hdfs.fileSuffix = .txt
+sdc.sinks.hd.hdfs.rollInterval = 120
+sdc.sinks.hd.hdfs.rollSize = 10485760
+sdc.sinks.hd.hdfs.rollCount = 100
+sdc.sinks.hd.hdfs.fileType = DataStream
+
+# Use a channel which buffers events in memory
+sdc.channels.hdmem.type = memory
+sdc.channels.hdmem.capacity = 1000
+sdc.channels.hdmem.transactionCapacity = 100
+
+sdc.channels.sparkmem.type = memory
+sdc.channels.sparkmem.capacity = 1000
+sdc.channels.sparkmem.transactionCapacity = 100
+
+# Bind the source and sink to the channel
+sdc.sources.ws.channels = hdmem sparkmem
+sdc.sinks.hd.channel = hdmem
+sdc.sinks.spark.channel = sparkmem
+```
 
 
 
